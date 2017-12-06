@@ -188,6 +188,7 @@
   "dependencies": {
     "antd": "^2.13.10",
     "babel-plugin-import": "^1.6.2",
+    "bizcharts": "^3.0.4",
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",

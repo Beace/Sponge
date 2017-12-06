@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import Nav from './Nav';
+import Proptypes from 'prop-types';
+import Layout from './Layout';
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <Nav>
+        <Layout>
           {this.props.children}
-        </Nav>
+        </Layout>
       </div>
     );
   }
 }
+
+App.propTypes = {
+  children: Proptypes.element.isRequired,
+};

@@ -2,15 +2,13 @@
 @import '~antd/dist/antd.css';
 body {
   position: relative;
-  color: white;
   height: 100vh;
-  background-color: #fff;
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
 }
 
 
-p {
+/*p {
   font-size: 24px;
 }
 
@@ -22,13 +20,13 @@ a {
   color: white;
   opacity: 0.75;
   text-decoration: none;
-}
-
+}*/
+/*
 a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
-}
+}*/
 .ant-layout-header {
   background: #fff;
   color: #333;

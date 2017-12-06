@@ -7,7 +7,7 @@ import Dashboard from './containers/Dashboard';
 export default () => (
   <App>
     <Switch>
-      <Route path="/" component={Dashboard} />
+      <Route path="/" exact component={Dashboard} />
     </Switch>
   </App>
 );

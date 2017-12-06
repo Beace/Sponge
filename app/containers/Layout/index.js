@@ -56,7 +56,7 @@ class Nav extends React.Component {
             />
           </Header>
           <Content style={{ padding: 24, background: '#fff', minHeight: 280 }}>
-            Content
+            {this.props.children}
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Sponge ©2017 Created by Beace Lee
