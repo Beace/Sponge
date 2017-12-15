@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Tooltip, Icon } from 'antd';
-import Recharts, { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { Row, Col, Card, Icon, Tooltip as Tool } from 'antd';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts';
 import styles from './index.css';
 
 const data = [
@@ -29,9 +29,9 @@ export default class Home extends Component {
               <Card>
                 <div className={styles.title}>
                   <h3>总文章</h3>
-                  <Tooltip title="统计文章总数">
+                  <Tool title="统计文章总数">
                     <Icon type="question-circle-o" />
-                  </Tooltip>
+                  </Tool>
                 </div>
                 <p>123</p>
               </Card>
@@ -40,9 +40,9 @@ export default class Home extends Component {
               <Card>
                 <div className={styles.title}>
                   <h3>总标签</h3>
-                  <Tooltip title="统计标签总数">
+                  <Tool title="统计标签总数">
                     <Icon type="question-circle-o" />
-                  </Tooltip>
+                  </Tool>
                 </div>
                 <p>222</p>
               </Card>
@@ -51,23 +51,25 @@ export default class Home extends Component {
               <Card>
                 <div className={styles.title}>
                   <h3>总分类</h3>
-                  <Tooltip title="统计分类总数">
+                  <Tool title="统计分类总数">
                     <Icon type="question-circle-o" />
-                  </Tooltip>
+                  </Tool>
                 </div>
                 <p>333</p>
               </Card>
             </Col>
           </Row>
-          <LineChart width={600} height={300} data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Recharts.Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}} />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-          </LineChart>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     );
