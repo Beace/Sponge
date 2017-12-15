@@ -8,10 +8,10 @@ import ArticleDetailPage from './containers/ArticleDetailPage';
 
 export default () => (
   <Layout>
-    <Switch>
-      <Route path="/articles" component={ArticleListPage} />
-      <Route path="/articles/:id" component={ArticleDetailPage} />
-      <Route path="/" component={Dashboard} />
-    </Switch>
+    <div>
+      <Route exact path="/" component={Dashboard} />
+      <Route exact path="/articles" component={ArticleListPage} />
+      <Route exact path="/articles/:id" component={ArticleDetailPage} />
+    </div>
   </Layout>
 );
