@@ -1,13 +1,17 @@
 /* eslint flowtype-errors/show-errors: 0 */
 import React from 'react';
-import { Switch, Route } from 'react-router';
-import App from './containers/App';
+import { Route, Switch } from 'react-router-dom';
+import Layout from './containers/Layout';
 import Dashboard from './containers/Dashboard';
+import ArticleListPage from './containers/ArticleListPage';
+import ArticleDetailPage from './containers/ArticleDetailPage';
 
 export default () => (
-  <App>
+  <Layout>
     <Switch>
-      <Route path="/" exact component={Dashboard} />
+      <Route path="/articles" component={ArticleListPage} />
+      <Route path="/articles/:id" component={ArticleDetailPage} />
+      <Route path="/" component={Dashboard} />
     </Switch>
-  </App>
+  </Layout>
 );

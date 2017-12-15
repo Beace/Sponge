@@ -1,6 +1,7 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 import { Layout, Menu, Icon } from 'antd';
+import { withRouter } from 'react-router-dom';
 import styles from './index.css';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -26,6 +27,13 @@ class Nav extends React.Component {
     });
   }
 
+  handleClick = e => {
+    console.log(this.props.history);
+    if (this.props.history.location.pathname !== e.key) {
+      this.props.history.push(e.key);
+    }
+  }
+
   render() {
     const collapsed = this.state.collapsed;
     return (
@@ -34,12 +42,13 @@ class Nav extends React.Component {
           trigger={null}
           collapsible
           collapsed={collapsed}
+          className={styles.sliderFixed}
         >
           <div className={collapsed ? styles.logomini : styles.logo} />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']} onClick={this.handleClick}>
             {
               navs.map(item => (
-                <Menu.Item key={item.key}>
+                <Menu.Item key={item.url}>
                   <Icon type={item.icon} />
                   <span className="nav-text">{item.name}</span>
                 </Menu.Item>
@@ -47,15 +56,15 @@ class Nav extends React.Component {
             }
           </Menu>
         </Sider>
-        <Layout className={styles.navLayout}>
-          <Header style={{ background: '#fff', padding: '0 0 0 20px', borderBottom: '1px solid #eee' }}>
+        <Layout className={collapsed ? styles.contentLayoutLarge : styles.contentLayout}>
+          <Header className={styles.contentHeader}>
             <Icon
               className={styles.trigger}
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
           </Header>
-          <Content style={{ padding: 24, background: '#fff', minHeight: 280 }}>
+          <Content className={styles.childrenContent}>
             {this.props.children}
           </Content>
           <Footer style={{ textAlign: 'center' }}>
@@ -69,10 +78,11 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   children: Proptypes.element.isRequired,
+  history: Proptypes.object.isRequired,
 };
 
 Nav.defaultProps = {
   description: '这是每一功能页面的描述',
 };
 
-export default Nav;
+export default withRouter(Nav);
