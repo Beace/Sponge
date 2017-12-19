@@ -8,7 +8,6 @@ class Fetch {
   async responseHandler(options) {
     try {
       const response = await axios(options);
-      console.log(response);
       if (response.data.data) {
         return Promise.resolve(response.data.data);
       }

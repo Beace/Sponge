@@ -19,7 +19,16 @@ const navs = [
 class Nav extends React.Component {
   state = {
     collapsed: false,
+    selectedKeys: ['/']
   };
+
+  componentWillMount() {
+    if (this.state.selectedKeys !== this.props.history.location.pathname) {
+      this.setState({
+        selectedKeys: [this.props.history.location.pathname],
+      });
+    }
+  }
 
   toggle = () => {
     this.setState({
@@ -27,15 +36,17 @@ class Nav extends React.Component {
     });
   }
 
-  handleClick = e => {
-    console.log(this.props.history);
-    if (this.props.history.location.pathname !== e.key) {
-      this.props.history.push(e.key);
+  onSelect = item => {
+    this.setState({
+      selectedKeys: [item.key],
+    });
+    if (this.props.history.location.pathname !== item.key) {
+      this.props.history.push(item.key);
     }
   }
 
   render() {
-    const collapsed = this.state.collapsed;
+    const { collapsed, selectedKeys } = this.state;
     return (
       <Layout>
         <Sider
@@ -45,7 +56,7 @@ class Nav extends React.Component {
           className={styles.sliderFixed}
         >
           <div className={collapsed ? styles.logomini : styles.logo} />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']} onClick={this.handleClick}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}  selectedKeys={selectedKeys} onSelect={this.onSelect}>
             {
               navs.map(item => (
                 <Menu.Item key={item.url}>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import marked from "marked";
 import { Row, Col, Form, DatePicker, Input, Button, Spin } from "antd";
 import highlightjs from "highlight.js";
-
+import styles from './index.css';
 import fetch from "../../lib/fetch";
 
 const FormItem = Form.Item;
@@ -144,6 +144,7 @@ class ArticleDetailForm extends React.Component {
             <Col span={12}>
               <FormItem label="预览" style={{ height: "100%" }}>
                 <div
+                  className={styles.previewContainer}
                   dangerouslySetInnerHTML={this.createMarkup()}
                   style={{
                     border: "1px solid #d9d9d9",
