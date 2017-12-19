@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import marked from "marked";
-import { Row, Col, Form, DatePicker, Input, Button, Spin } from "antd";
+import { Row, Col, Form, DatePicker, Input, Button, Spin, Affix, message } from "antd";
 import highlightjs from "highlight.js";
-import styles from './index.css';
+import moment from 'moment';
+
+import styles from "./index.css";
 import fetch from "../../lib/fetch";
 
 const FormItem = Form.Item;
@@ -64,9 +66,16 @@ class ArticleDetailForm extends React.Component {
       }
       const values = {
         ...fieldsValue,
-        date: fieldsValue["date"].format("YYYY-MM-DD HH:mm:ss")
+        date: fieldsValue.date.format("YYYY-MM-DD HH:mm:ss")
       };
       console.log("Received values of form: ", values);
+      fetch.post(`article_update`, values).then(data => {
+        console.log(data);
+        message.success("修改成功！");
+      }).catch(error => {
+        console.log(error);
+        message.error(JSON.stringify(error));
+      });
     });
   };
 
@@ -80,13 +89,6 @@ class ArticleDetailForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
-    const config = {
-      rules: [{ type: "string", required: true, message: "say sth." }]
-    };
-    const dateConfig = {
-      rules: [{ type: "object", required: true, message: "say sth." }]
-    };
     const data = this.state.data;
     return (
       <Spin spinning={this.state.loading}>
@@ -107,7 +109,10 @@ class ArticleDetailForm extends React.Component {
             })(<Input />)}
           </FormItem>
           <FormItem label="时间">
-            {getFieldDecorator("date", dateConfig)(
+            {getFieldDecorator("date", {
+              initialValue: data.date ? moment(data.date) : null,
+              rules: [{ type: "object", required: true, message: "say sth." }],
+            })(
               <DatePicker
                 style={{ width: "100%" }}
                 showTime
@@ -136,7 +141,7 @@ class ArticleDetailForm extends React.Component {
                 })(
                   <Input.TextArea
                     placeholder="正文。。。"
-                    autosize={{ minRows: 80, maxRows: 80 }}
+                    autosize={{ minRows: 300, maxRows: 1000 }}
                   />
                 )}
               </FormItem>
@@ -156,11 +161,13 @@ class ArticleDetailForm extends React.Component {
               </FormItem>
             </Col>
           </Row>
-          <FormItem>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </FormItem>
+          <Affix offsetBottom={0}>
+            <FormItem style={{ textAlign: "right" }}>
+              <Button type="primary" htmlType="submit">
+                提交
+              </Button>
+            </FormItem>
+          </Affix>
         </Form>
       </Spin>
     );

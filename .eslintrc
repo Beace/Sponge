@@ -10,6 +10,7 @@
     "node": true
   },
   "rules": {
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
