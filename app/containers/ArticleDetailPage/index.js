@@ -42,7 +42,7 @@ class ArticleDetailForm extends React.Component {
       .get(`articles/${this.props.match.params.id}`)
       .then(data => {
         this.setState({
-          data,
+          data: data.data,
           loading: false
         });
       })

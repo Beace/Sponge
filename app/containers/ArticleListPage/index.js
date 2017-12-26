@@ -1,77 +1,93 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Table, Divider, Popconfirm, message } from "antd";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Table, Divider, Popconfirm, message } from 'antd';
 
-import fetch from "../../lib/fetch";
+import fetch from '../../lib/fetch';
 
 class ArticleListPage extends React.Component {
   state = {
     data: [],
-    loading: false
+    loading: false,
+    pagination: {
+      current: 1,
+    },
   };
   componentDidMount() {
-    this.setState({
-      loading: true
-    });
     this.getList();
   }
 
-  getList = () => {
+  getList = (current) => {
+    this.setState({
+      loading: true,
+    });
     fetch
-      .get("articles")
-      .then(data => {
+      .get('articles', {
+        size: 10,
+        start: current || 1,
+      })
+      .then((data) => {
+        const pagination = { ...this.state.pagination };
+        pagination.total = data.totalNumber;
         this.setState({
-          data,
-          loading: false
+          data: data.data,
+          loading: false,
+          pagination,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
-          loading: false
+          loading: false,
         });
-        console.log(error);
       });
-  }
+  };
 
-  confirm = data => {
-    console.log(data);
+  confirm = (data) => {
     fetch
-      .post("article_delete", { _id: data._id })
-      .then(data => {
-        message.success("删除成功！");
+      .post('article_delete', { _id: data._id })
+      .then(() => {
+        message.success('删除成功！');
         this.getList();
       })
       .catch(error => message.error(JSON.stringify(error)));
   };
 
+
+  handleTableChange = (pagination) => {
+    const pager = { ...this.state.pagination };
+    pager.current = pagination.current;
+    this.setState({
+      pagination: pager,
+    });
+    this.getList(pager.current);
+  }
   render() {
     const { loading, data } = this.state;
     const columns = [
       {
-        title: "标题",
-        dataIndex: "title",
-        key: "title"
+        title: '标题',
+        dataIndex: 'title',
+        key: 'title',
       },
       {
-        title: "作者",
-        dataIndex: "author",
-        key: "author",
-        render: text => text || "Beace"
+        title: '作者',
+        dataIndex: 'author',
+        key: 'author',
+        render: text => text || 'Beace',
       },
       {
-        title: "创建时间",
-        dataIndex: "date",
-        key: "date"
+        title: '创建时间',
+        dataIndex: 'date',
+        key: 'date',
       },
       {
-        title: "描述",
-        dataIndex: "abstract",
-        key: "abstract",
-        width: "20%"
+        title: '描述',
+        dataIndex: 'abstract',
+        key: 'abstract',
+        width: '20%',
       },
       {
-        title: "操作",
-        key: "action",
+        title: '操作',
+        key: 'action',
         render: (text, record) => (
           <span>
             <Link to={`/articles/${record._id}`}>编辑</Link>
@@ -86,8 +102,8 @@ class ArticleListPage extends React.Component {
               <a>删除</a>
             </Popconfirm>
           </span>
-        )
-      }
+        ),
+      },
     ];
     return (
       <div>
@@ -96,6 +112,8 @@ class ArticleListPage extends React.Component {
           columns={columns}
           dataSource={data}
           rowKey="_id"
+          pagination={this.state.pagination}
+          onChange={this.handleTableChange}
         />
       </div>
     );
